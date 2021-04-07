@@ -33,7 +33,9 @@ namespace FaceDetectionAndRecognition
 
         private EigenFaceRecognizer recognizer;
         private Timer captureTimer;
+
         #region FaceName
+
         private string faceName;
         public string FaceName
         {
@@ -41,11 +43,14 @@ namespace FaceDetectionAndRecognition
             set
             {
                 faceName = value.ToUpper();
-                lblFaceName.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => { lblFaceName.Content = faceName; }));
+                lblFaceName.Dispatcher.Invoke(DispatcherPriority.Normal, 
+                    new Action(() => { lblFaceName.Content = faceName; }));
                 NotifyPropertyChanged();
             }
         }
+
         #endregion
+
         #region CameraCaptureImage
         private Bitmap cameraCapture;
         public Bitmap CameraCapture
@@ -59,6 +64,7 @@ namespace FaceDetectionAndRecognition
             }
         }
         #endregion
+
         #region CameraCaptureFaceImage
         private Bitmap cameraCaptureFace;
         public Bitmap CameraCaptureFace
@@ -74,6 +80,7 @@ namespace FaceDetectionAndRecognition
             }
         }
         #endregion
+
         #endregion
 
         #region Constructor
@@ -261,6 +268,8 @@ namespace FaceDetectionAndRecognition
                 FaceName = "Please Add Face";
             }
         }
+
+
         /// <summary>
         /// Convert bitmap to bitmap image for image control
         /// </summary>

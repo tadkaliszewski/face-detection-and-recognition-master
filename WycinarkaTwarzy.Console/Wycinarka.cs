@@ -1,12 +1,8 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WycinarkaTwarzy.Console
 {
@@ -17,7 +13,7 @@ namespace WycinarkaTwarzy.Console
         /// <summary>
         /// Najlepsze parametry
         ///   var rectangles = haarCascade.DetectMultiScale(gray,
-        ///       1.1, 5, new System.Drawing.Size(400, 400));
+        ///     1.1, 5, new System.Drawing.Size(400, 400));
         /// </summary>
         /// <param name="fileName"></param>
         public void DetectMultiScale(string fileName)

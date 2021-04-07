@@ -1,6 +1,10 @@
 ﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Face;
 using Emgu.CV.Structure;
+using Emgu.CV.Util;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,6 +18,14 @@ namespace FaceDetectionAndRecognition
     /// </summary>
     public partial class WFFaceRecognitionFromImage : Window
     {
+        private CascadeClassifier haarCascade;
+        private List<FaceData> knownFacesList = new List<FaceData>();
+        private VectorOfMat imageList = new VectorOfMat();
+        private List<string> nameList = new List<string>();
+        private VectorOfInt labelList = new VectorOfInt();
+        private EigenFaceRecognizer recognizer;
+        private Image<Gray, Byte> detectedFace = null;
+
         public WFFaceRecognitionFromImage()
         {
             InitializeComponent();
@@ -21,6 +33,8 @@ namespace FaceDetectionAndRecognition
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            PrepareKnownFacesList();
+
             // Create OpenFileDialog 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
@@ -72,6 +86,13 @@ namespace FaceDetectionAndRecognition
                 /*oryginalImage.Draw(rectangle.Scale(50, 0, -10), 
                     new Bgr(System.Drawing.Color.White), 3);*/
 
+                detectedFace = oryginalImage.Copy(rectangle).Convert<Gray, byte>();
+
+                FaceRecognition();
+
+
+                /* break;
+                
                 try
                 {
                     face = oryginalImage.GetSubRect(rectangle.Scale(50, 0, -10));
@@ -80,12 +101,15 @@ namespace FaceDetectionAndRecognition
                 {
                     MessageBox.Show(ex.ToString());
                 }
+                */
             }
 
+            /*
             imgCamera.Source = BitmapToImageSource(
                 face.AsBitmap()
                 //oryginalImage.AsBitmap()
                 );
+            */
         }
 
         /// <summary>
@@ -107,6 +131,97 @@ namespace FaceDetectionAndRecognition
 
                 return bitmapimage;
             }
+        }
+
+        private void FaceRecognition()
+        {
+            if (imageList.Size != 0)
+            {
+                //Eigen Face Algorithm
+                FaceRecognizer.PredictionResult result = recognizer.
+                    Predict(detectedFace.Resize(100, 100, Inter.Cubic));
+
+                var faceName = nameList[result.Label];
+
+                var cameraCaptureFace = detectedFace.ToBitmap();
+            }
+            else
+            {
+                /* FaceName = "Please Add Face"; */
+            }
+        }
+
+        /// <summary>
+        /// Wczytuje listę znanych twarzy i przygotowuje
+        /// obiekt rozpoznawania
+        /// </summary>
+        public void PrepareKnownFacesList()
+        {
+
+            if (!File.Exists(Config.HaarCascadePath))
+            {
+                string text = "Cannot find Haar cascade data file:\n\n";
+                text += Config.HaarCascadePath;
+                MessageBoxResult result = MessageBox.Show(text, "Error",
+                       MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            haarCascade = new CascadeClassifier(Config.HaarCascadePath);
+
+            knownFacesList.Clear();
+
+            string line;
+
+            if (!Directory.Exists(Config.FacePhotosPath))
+            {
+                Directory.CreateDirectory(Config.FacePhotosPath);
+            }
+
+            if (!File.Exists(Config.FaceListTextFile))
+            {
+                string text = "Cannot find face data file:\n\n";
+                text += Config.FaceListTextFile + "\n\n";
+                text += "If this is your first time running the app, an empty file will be created for you.";
+                MessageBoxResult result = MessageBox.Show(text, "Warning",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                switch (result)
+                {
+                    case MessageBoxResult.OK:
+                        String dirName = Path.GetDirectoryName(Config.FaceListTextFile);
+                        Directory.CreateDirectory(dirName);
+                        File.Create(Config.FaceListTextFile).Close();
+                        break;
+                }
+            }
+
+            StreamReader reader = new StreamReader(Config.FaceListTextFile);
+            int i = 0;
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] lineParts = line.Split(':');
+                var faceInstance = new FaceData();
+                faceInstance.FaceImage = new Image<Gray, byte>
+                    (Config.FacePhotosPath + lineParts[0] + Config.ImageFileExtension);
+                faceInstance.PersonName = lineParts[1];
+                knownFacesList.Add(faceInstance);
+            }
+
+            foreach (var face in knownFacesList)
+            {
+                imageList.Push(face.FaceImage.Mat);
+                nameList.Add(face.PersonName);
+                labelList.Push(new[] { i++ });
+            }
+
+            reader.Close();
+
+            if (imageList.Size > 0)
+            {
+                recognizer = new EigenFaceRecognizer(imageList.Size);
+                recognizer.Train(imageList, labelList);
+            }
+
         }
 
     }
