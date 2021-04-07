@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceDetectionAndRecognition", "FaceDetectionAndRecognition\FaceDetectionAndRecognition.csproj", "{8F3FAEC5-5BFE-47C6-88DB-B22E0DD2CA00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WycinarkaTwarzy.Console", "WycinarkaTwarzy.Console\WycinarkaTwarzy.Console.csproj", "{1F665704-79B5-40F7-A86C-2D1AD920B0AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F3FAEC5-5BFE-47C6-88DB-B22E0DD2CA00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F3FAEC5-5BFE-47C6-88DB-B22E0DD2CA00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F3FAEC5-5BFE-47C6-88DB-B22E0DD2CA00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F3FAEC5-5BFE-47C6-88DB-B22E0DD2CA00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F665704-79B5-40F7-A86C-2D1AD920B0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F665704-79B5-40F7-A86C-2D1AD920B0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F665704-79B5-40F7-A86C-2D1AD920B0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F665704-79B5-40F7-A86C-2D1AD920B0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D17A9CA1-20DA-40FD-B8B8-019AEC5A9E30}
+	EndGlobalSection
+EndGlobal
