@@ -52,7 +52,7 @@ namespace WycinarkaTwarzy.Console
 
                     var fileInfo = new FileInfo(fileName);
 
-                    var newfileName = $"C:\\Tmp\\WycinarkaTest\\{fileInfo.Name}-{n++}.jpg";
+                    var newfileName = $"C:\\Tmp\\Whatsup Wycinarka Out\\{fileInfo.Name}-{n++}.jpg";
 
                     System.Console.WriteLine($" - zapisuję: {newfileName}");
 

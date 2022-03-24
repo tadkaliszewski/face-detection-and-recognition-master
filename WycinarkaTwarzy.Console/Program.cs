@@ -13,7 +13,7 @@ namespace WycinarkaTwarzy.Console
         {
 
             var files = 
-                Directory.GetFiles(@"C:\Tmp\Whatsup", 
+                Directory.GetFiles(@"D:\ZDJECIA CD_ARCHIVE\ZDJECIA\CD Zdjecia\12\UK", 
                     "*.jpg", SearchOption.AllDirectories);
 
             var wycinarka = new Wycinarka();
